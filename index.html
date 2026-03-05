@@ -147,9 +147,6 @@ header::after{content:'';position:absolute;bottom:-80px;left:-60px;width:300px;h
 .contact-link{display:flex;align-items:center;gap:1rem;padding:0.9rem 1rem;background:var(--paper);border:1px solid var(--border);border-radius:10px;text-decoration:none;color:var(--ink);font-size:0.86rem;font-weight:500;transition:background 0.2s,border-color 0.2s,transform 0.2s,color 0.2s}
 .contact-link:hover{background:var(--accent-lt);border-color:var(--accent-md);color:var(--accent);transform:translateX(3px)}
 .contact-link-icon{width:36px;height:36px;background:var(--white);border:1px solid var(--border);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
-.admin-toggle{position:fixed;bottom:1.2rem;right:1.2rem;font-family:'Sora',sans-serif;font-size:0.7rem;font-weight:600;padding:0.5rem 0.9rem;border-radius:100px;border:1px solid var(--border);background:var(--white);color:var(--ink-muted);cursor:pointer;box-shadow:var(--shadow-sm);transition:all 0.2s;z-index:500;opacity:0.4}
-.admin-toggle:hover{opacity:1;box-shadow:var(--shadow-md)}
-.admin-toggle.active{background:var(--accent);color:#fff;border-color:var(--accent);opacity:1}
 footer{background:var(--ink);color:rgba(255,255,255,0.35);text-align:center;padding:1.8rem;font-size:0.75rem;margin-top:3rem;letter-spacing:0.05em}
 footer a{color:rgba(255,255,255,0.55);text-decoration:none}
 footer a:hover{color:#fff}
@@ -399,6 +396,17 @@ footer a:hover{color:#fff}
 
 <footer>&copy; 2026 Mhamadi Nayb &nbsp;&middot;&nbsp; <a href="mailto:nayb.mhamadi24@gmail.com">nayb.mhamadi24@gmail.com</a> &nbsp;&middot;&nbsp; Marseille</footer>
 
+<!-- MODAL PDF -->
+<div class="modal-overlay" id="pdfModal">
+  <div class="modal">
+    <div class="modal-title">Document PDF</div>
+    <div class="modal-sub" id="pdfModalSub"></div>
+    <div class="modal-field"><label class="modal-label">Nom du document</label><input class="modal-input" type="text" id="pdfTitle" placeholder="Ex : Rapport de stage VPN"/></div>
+    <div class="modal-field"><label class="modal-label">Lien du PDF (Google Drive, GitHub...)</label><input class="modal-input" type="url" id="pdfUrl" placeholder="https://..."/><div class="modal-error" id="pdfError">Lien invalide (doit commencer par https://)</div></div>
+    <div class="modal-actions"><button class="btn-cancel" onclick="closeModal('pdf')">Annuler</button><button class="btn-delete" id="btnDeletePdf" onclick="deleteItem('pdf')" style="display:none">Supprimer</button><button class="btn-save" onclick="saveItem('pdf')">Enregistrer</button></div>
+  </div>
+</div>
+
 <!-- MODAL TUTO -->
 <div class="modal-overlay" id="tutoModal">
   <div class="modal">
@@ -420,23 +428,50 @@ footer a:hover{color:#fff}
   </div>
 </div>
 
-<button class="admin-toggle" id="adminBtn" onclick="toggleAdmin()">Admin</button>
-
-<input type="file" id="pdfFileInput" accept=".pdf" style="display:none"/>
 
 <script>
+// CONFIG - mettre a jour l'URL de l'API apres deploiement
+var API_URL = 'api.php';
 var PWD = 'mhamadi2026';
 var isAdmin = false;
 var tutos = {}, pdfs = {};
 var currentId = null, currentType = null;
 
-try { tutos = JSON.parse(localStorage.getItem('ptutos')||'{}'); } catch(e){}
-try { pdfs  = JSON.parse(localStorage.getItem('ppdfs') ||'{}'); } catch(e){}
 try { if(localStorage.getItem('padmin')==='1') isAdmin=true; } catch(e){}
 
 function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/[<]/g,'&lt;').replace(/[>]/g,'&gt;').replace(/"/g,'&quot;'); }
 
-function save(key,obj){ try{localStorage.setItem(key,JSON.stringify(obj));}catch(e){} }
+function apiGet(){
+  fetch(API_URL + '?action=get')
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      pdfs = {}; tutos = {};
+      Object.keys(data).forEach(function(id){
+        if(data[id].pdf)  pdfs[id]  = { title: data[id].pdf.titre,  url: data[id].pdf.url };
+        if(data[id].tuto) tutos[id] = { title: data[id].tuto.titre, url: data[id].tuto.url };
+      });
+      render();
+    })
+    .catch(function(){ render(); });
+}
+
+function apiUpdate(id, type, titre, url, cb){
+  fetch(API_URL + '?action=update', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ password: PWD, id: id, type: type, titre: titre, url: url })
+  }).then(function(r){ return r.json(); })
+    .then(function(d){ if(d.success && cb) cb(); });
+}
+
+function apiDelete(id, type, cb){
+  fetch(API_URL + '?action=delete', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ password: PWD, id: id, type: type })
+  }).then(function(r){ return r.json(); })
+    .then(function(d){ if(d.success && cb) cb(); });
+}
 
 function render(){
   document.querySelectorAll('[data-project-id]').forEach(function(card){
@@ -445,128 +480,121 @@ function render(){
     if(!area) return;
     var html = '';
     var p = pdfs[id], t = tutos[id];
-
     if(p && p.url){
       html += '<a class="btn-pdf-link" href="'+esc(p.url)+'" target="_blank" rel="noopener">&#128196; Ouvrir le PDF</a>';
       if(isAdmin){
-        html += '<button class="btn-ghost btn-ghost-pdf" style="margin-top:0" onclick="pickPdf(\''+id+'\')">&#9998; Changer le PDF</button>';
+        html += '<button class="btn-ghost btn-ghost-pdf" style="margin-top:0" onclick="openModal(\'pdf\',\''+id+'\')">&#9998; Changer le PDF</button>';
         html += '<button class="btn-ghost" style="margin-top:0;color:#c0152e;border-color:#fcc" onclick="deletePdf(\''+id+'\')">&#128465; Supprimer le PDF</button>';
       }
-    } else if(isAdmin){
-      html += '<button class="btn-ghost btn-ghost-pdf" onclick="pickPdf(\''+id+'\')">&#128196; Initialiser un PDF</button>';
     }
-
     if(t && t.url){
       html += '<a class="tuto-link-display" href="'+esc(t.url)+'" target="_blank" rel="noopener">&#128216; '+esc(t.title||'Tutoriel')+'</a>';
       if(isAdmin) html += '<button class="btn-ghost" style="margin-top:0" onclick="openModal(\'tuto\',\''+id+'\')">&#9998; Modifier le tutoriel</button>';
     }
-
     area.innerHTML = html;
   });
-  var btn = document.getElementById('adminBtn');
-  btn.textContent = isAdmin ? 'Admin actif' : 'Admin';
-  btn.className = isAdmin ? 'admin-toggle active' : 'admin-toggle';
 }
-
-function pickPdf(id){
-  currentId = id;
-  document.getElementById('pdfFileInput').click();
-}
-
-document.getElementById('pdfFileInput').addEventListener('change', function(){
-  var file = this.files[0];
-  if(!file) return;
-  var url = URL.createObjectURL(file);
-  pdfs[currentId] = { title: file.name, url: url };
-  // Stocker le nom pour affichage, l'URL blob ne persiste pas entre sessions
-  try { localStorage.setItem('ppdfs', JSON.stringify(pdfs)); } catch(e){}
-  render();
-  this.value = '';
-});
-
 
 function deletePdf(id){
-  delete pdfs[id];
-  save('ppdfs', pdfs);
-  render();
+  apiDelete(id, 'pdf', function(){ delete pdfs[id]; render(); });
 }
-
 
 function openModal(type, id){
   currentId = id; currentType = type;
   var card = document.querySelector('[data-project-id="'+id+'"]');
   var name = card ? card.querySelector('.project-title').textContent : id;
-  var t = tutos[id];
-  document.getElementById('tutoModalSub').textContent = name;
-  document.getElementById('tutoTitle').value = t?(t.title||''):'';
-  document.getElementById('tutoUrl').value   = t?(t.url  ||''):'';
-  document.getElementById('tutoError').style.display='none';
-  document.getElementById('btnDeleteTuto').style.display=(t&&t.url)?'block':'none';
-  document.getElementById('tutoModal').classList.add('open');
+  if(type === 'pdf'){
+    var p = pdfs[id];
+    document.getElementById('pdfModalSub').textContent = name;
+    document.getElementById('pdfTitle').value = p ? (p.title||'') : '';
+    document.getElementById('pdfUrl').value   = p ? (p.url||'')   : '';
+    document.getElementById('pdfError').style.display = 'none';
+    document.getElementById('btnDeletePdf').style.display = (p && p.url) ? 'block' : 'none';
+    document.getElementById('pdfModal').classList.add('open');
+  } else {
+    var t = tutos[id];
+    document.getElementById('tutoModalSub').textContent = name;
+    document.getElementById('tutoTitle').value = t ? (t.title||'') : '';
+    document.getElementById('tutoUrl').value   = t ? (t.url||'')   : '';
+    document.getElementById('tutoError').style.display = 'none';
+    document.getElementById('btnDeleteTuto').style.display = (t && t.url) ? 'block' : 'none';
+    document.getElementById('tutoModal').classList.add('open');
+  }
 }
 
 function closeModal(type){
   document.getElementById(type+'Modal').classList.remove('open');
-  currentId=null; currentType=null;
+  currentId = null; currentType = null;
 }
 
 function saveItem(type){
-  var url   = document.getElementById('tutoUrl').value.trim();
-  var title = document.getElementById('tutoTitle').value.trim();
-  var errEl = document.getElementById('tutoError');
-  if(!url||(!url.startsWith('http://')&&!url.startsWith('https://'))){
-    errEl.style.display='block'; return;
+  var url   = document.getElementById(type+'Url').value.trim();
+  var title = document.getElementById(type+'Title').value.trim();
+  var errEl = document.getElementById(type+'Error');
+  if(!url || (!url.startsWith('http://') && !url.startsWith('https://'))){
+    errEl.style.display = 'block'; return;
   }
-  errEl.style.display='none';
-  tutos[currentId]={title:title||url,url:url};
-  save('ptutos',tutos);
-  render(); closeModal('tuto');
+  errEl.style.display = 'none';
+  apiUpdate(currentId, type, title||url, url, function(){
+    if(type==='pdf') pdfs[currentId]  = { title: title||url, url: url };
+    else             tutos[currentId] = { title: title||url, url: url };
+    render();
+  });
+  closeModal(type);
 }
 
 function deleteItem(type){
-  if(type==='pdf'){ delete pdfs[currentId]; save('ppdfs',pdfs); }
-  else            { delete tutos[currentId]; save('ptutos',tutos); }
-  render(); closeModal(type);
+  apiDelete(currentId, type, function(){
+    if(type==='pdf') delete pdfs[currentId];
+    else             delete tutos[currentId];
+    render();
+  });
+  closeModal(type);
 }
 
 function toggleAdmin(){
-  if(isAdmin){ isAdmin=false; try{localStorage.removeItem('padmin');}catch(e){} render(); }
-  else{
-    document.getElementById('loginInput').value='';
-    document.getElementById('loginError').style.display='none';
+  if(isAdmin){
+    isAdmin = false;
+    try { localStorage.removeItem('padmin'); } catch(e){}
+    render();
+  } else {
+    document.getElementById('loginInput').value = '';
+    document.getElementById('loginError').style.display = 'none';
     document.getElementById('loginModal').classList.add('open');
-    setTimeout(function(){document.getElementById('loginInput').focus();},150);
+    setTimeout(function(){ document.getElementById('loginInput').focus(); }, 150);
   }
 }
 
 function closeLogin(){ document.getElementById('loginModal').classList.remove('open'); }
 
 function submitLogin(){
-  if(document.getElementById('loginInput').value===PWD){
-    isAdmin=true; try{localStorage.setItem('padmin','1');}catch(e){}
+  if(document.getElementById('loginInput').value === PWD){
+    isAdmin = true;
+    try { localStorage.setItem('padmin','1'); } catch(e){}
     closeLogin(); render();
   } else {
-    document.getElementById('loginError').style.display='block';
-    document.getElementById('loginInput').value='';
+    document.getElementById('loginError').style.display = 'block';
+    document.getElementById('loginInput').value = '';
   }
 }
 
 function showTab(id,btn){
-  document.querySelectorAll('.tab-content').forEach(function(el){el.classList.remove('active');});
-  document.querySelectorAll('.tab-btn').forEach(function(el){el.classList.remove('active');});
-  var t=document.getElementById('tab-'+id); if(t) t.classList.add('active');
+  document.querySelectorAll('.tab-content').forEach(function(el){ el.classList.remove('active'); });
+  document.querySelectorAll('.tab-btn').forEach(function(el){ el.classList.remove('active'); });
+  var t = document.getElementById('tab-'+id); if(t) t.classList.add('active');
   btn.classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
+document.getElementById('pdfModal').addEventListener('click',function(e){if(e.target===this)closeModal('pdf');});
 document.getElementById('tutoModal').addEventListener('click',function(e){if(e.target===this)closeModal('tuto');});
 document.getElementById('loginModal').addEventListener('click',function(e){if(e.target===this)closeLogin();});
 document.addEventListener('keydown',function(e){
-  if(e.key==='Enter'&&document.getElementById('loginModal').classList.contains('open')) submitLogin();
-  if(e.key==='Escape'){closeModal('tuto');closeLogin();}
+  if(e.key==='Enter' && document.getElementById('loginModal').classList.contains('open')) submitLogin();
+  if(e.key==='Escape'){ closeModal('pdf'); closeModal('tuto'); closeLogin(); }
 });
 
-render();
+apiGet();
 </script>
 </body>
 </html>
