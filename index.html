@@ -1,1 +1,669 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Mhamadi Nayb — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #f5f6fa;
+  color: #1a1a2e;
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+header {
+  background: #1a1a2e;
+  color: white;
+  padding: 2.5rem 2rem;
+  text-align: center;
+}
+header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+}
+header p {
+  color: #a0aec0;
+  margin-top: 0.4rem;
+  font-size: 0.95rem;
+}
+.header-badges {
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+.badge {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: #e2e8f0;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.78rem;
+}
+
+/* ── TABS ── */
+.tab-nav {
+  background: white;
+  border-bottom: 2px solid #e2e8f0;
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tab-nav::-webkit-scrollbar { display: none; }
+
+.tab-btn {
+  padding: 1rem 1.4rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #64748b;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.2s, border-color 0.2s;
+}
+.tab-btn:hover { color: #1a1a2e; }
+.tab-btn.active {
+  color: #2563eb;
+  border-bottom-color: #2563eb;
+  font-weight: 600;
+}
+
+/* ── CONTENT ── */
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+.page {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem;
+}
+
+.section-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+/* ── ACCUEIL ── */
+.intro-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+@media (max-width: 600px) { .intro-grid { grid-template-columns: 1fr; } }
+
+.stat-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 1.2rem 1.5rem;
+  text-align: center;
+}
+.stat-num { font-size: 2rem; font-weight: 700; color: #2563eb; line-height: 1; }
+.stat-label { font-size: 0.8rem; color: #64748b; margin-top: 0.3rem; }
+
+.info-list { display: flex; flex-direction: column; gap: 0.7rem; margin-top: 1rem; }
+.info-item { display: flex; align-items: center; gap: 0.7rem; font-size: 0.88rem; color: #4a5568; }
+.info-icon {
+  width: 32px; height: 32px;
+  background: #f0f4ff;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.9rem; flex-shrink: 0;
+}
+.info-item a { color: #2563eb; text-decoration: none; }
+.info-item a:hover { text-decoration: underline; }
+
+/* ── COMPÉTENCES ── */
+.skill-group {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 1.2rem 1.5rem;
+  margin-bottom: 1rem;
+}
+.skill-group-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin-bottom: 0.8rem;
+}
+.tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.tag {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: 4px;
+  background: #f0f4ff;
+  color: #2563eb;
+  border: 1px solid #dbeafe;
+}
+
+/* ── EXPÉRIENCES ── */
+.exp-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+.exp-header {
+  padding: 1.2rem 1.5rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  user-select: none;
+}
+.exp-header:hover { background: #fafbff; }
+.exp-date { font-size: 0.75rem; color: #2563eb; font-weight: 500; margin-bottom: 0.25rem; }
+.exp-title { font-size: 0.95rem; font-weight: 600; color: #1a1a2e; }
+.exp-company { font-size: 0.82rem; color: #64748b; margin-top: 0.15rem; }
+.exp-right { display: flex; flex-direction: column; align-items: flex-end; gap: 0.4rem; flex-shrink: 0; }
+.stage-badge {
+  font-size: 0.72rem;
+  padding: 0.2rem 0.6rem;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #16a34a;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.toggle-icon { font-size: 0.75rem; color: #94a3b8; transition: transform 0.2s; }
+.exp-card.open .toggle-icon { transform: rotate(180deg); }
+
+.exp-body {
+  display: none;
+  padding: 0 1.5rem 1.2rem;
+  border-top: 1px solid #e2e8f0;
+}
+.exp-card.open .exp-body { display: block; }
+
+.exp-list { list-style: none; margin-top: 0.8rem; display: flex; flex-direction: column; gap: 0.45rem; }
+.exp-list li {
+  font-size: 0.86rem; color: #4a5568;
+  padding-left: 1.1rem; position: relative; line-height: 1.5;
+}
+.exp-list li::before { content: '•'; position: absolute; left: 0; color: #2563eb; }
+
+/* ── PROJETS ── */
+.project-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+}
+.project-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.4rem; }
+.project-title { font-size: 1rem; font-weight: 600; color: #1a1a2e; }
+.project-year {
+  font-size: 0.75rem; color: #94a3b8;
+  background: #f8fafc; border: 1px solid #e2e8f0;
+  padding: 0.2rem 0.5rem; border-radius: 4px; white-space: nowrap;
+}
+.project-org { font-size: 0.8rem; color: #2563eb; margin-bottom: 0.7rem; }
+.project-desc { font-size: 0.86rem; color: #4a5568; line-height: 1.6; margin-bottom: 1rem; }
+
+/* ── FORMATIONS ── */
+.formation-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 1.2rem 1.5rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+.formation-level {
+  font-size: 0.8rem; font-weight: 700; color: #2563eb;
+  background: #eff6ff; border: 1px solid #bfdbfe;
+  border-radius: 6px; padding: 0.5rem 0.7rem;
+  text-align: center; min-width: 56px; flex-shrink: 0; line-height: 1.3;
+}
+.formation-info { flex: 1; }
+.formation-name { font-size: 0.92rem; font-weight: 600; color: #1a1a2e; margin-bottom: 0.2rem; }
+.formation-school { font-size: 0.8rem; color: #64748b; }
+.formation-meta { text-align: right; flex-shrink: 0; }
+.formation-years { font-size: 0.8rem; color: #64748b; display: block; }
+.status-badge {
+  display: inline-block; margin-top: 0.3rem;
+  font-size: 0.7rem; padding: 0.15rem 0.5rem; border-radius: 4px;
+}
+.status-done { background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a; }
+.status-progress { background: #fff7ed; border: 1px solid #fed7aa; color: #ea580c; }
+
+/* ── BTS SIO ── */
+.sio-intro {
+  background: #eff6ff; border: 1px solid #bfdbfe;
+  border-radius: 8px; padding: 1.2rem 1.5rem; margin-bottom: 1.5rem;
+  font-size: 0.88rem; color: #1e40af; line-height: 1.6;
+}
+.sio-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+@media (max-width: 600px) { .sio-grid { grid-template-columns: 1fr; } }
+
+.sio-block {
+  background: white; border: 1px solid #e2e8f0;
+  border-radius: 8px; padding: 1.2rem 1.5rem;
+}
+.sio-block h4 {
+  font-size: 0.85rem; font-weight: 600; color: #1a1a2e;
+  margin-bottom: 0.8rem; padding-bottom: 0.5rem; border-bottom: 1px solid #e2e8f0;
+}
+.sio-block ul { list-style: none; display: flex; flex-direction: column; gap: 0.45rem; }
+.sio-block li {
+  font-size: 0.82rem; color: #4a5568;
+  padding-left: 1.1rem; position: relative; line-height: 1.5;
+}
+.sio-block li::before { content: '✓'; position: absolute; left: 0; color: #16a34a; font-size: 0.7rem; }
+
+/* ── CONTACT ── */
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+@media (max-width: 600px) { .contact-grid { grid-template-columns: 1fr; } }
+
+.contact-form { display: flex; flex-direction: column; gap: 0.9rem; }
+.form-label { font-size: 0.78rem; font-weight: 600; color: #374151; display: block; margin-bottom: 0.35rem; }
+.form-input, .form-textarea {
+  width: 100%; background: white; border: 1px solid #d1d5db;
+  border-radius: 6px; padding: 0.65rem 0.9rem;
+  font-family: 'Inter', sans-serif; font-size: 0.88rem; color: #1a1a2e;
+  outline: none; transition: border-color 0.2s;
+}
+.form-input:focus, .form-textarea:focus { border-color: #2563eb; }
+.form-textarea { resize: vertical; min-height: 110px; }
+.form-btn {
+  background: #2563eb; color: white; border: none; border-radius: 6px;
+  padding: 0.7rem 1.5rem; font-family: 'Inter', sans-serif;
+  font-size: 0.88rem; font-weight: 600; cursor: pointer;
+  transition: background 0.2s; width: fit-content;
+}
+.form-btn:hover { background: #1d4ed8; }
+
+/* ── FOOTER ── */
+footer {
+  background: #1a1a2e; color: #94a3b8;
+  text-align: center; padding: 1.5rem;
+  font-size: 0.8rem; margin-top: 2rem;
+}
+footer a { color: #60a5fa; text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <h1>Mhamadi Nayb</h1>
+  <p>Administrateur Système &amp; Réseau Junior</p>
+  <div class="header-badges">
+    <span class="badge">📍 Marseille</span>
+    <span class="badge">🎓 BTS SIO · SISR</span>
+    <span class="badge">✅ Disponible</span>
+  </div>
+</header>
+
+<!-- TABS -->
+<nav class="tab-nav">
+  <button class="tab-btn active" onclick="showTab('accueil', this)">Accueil</button>
+  <button class="tab-btn" onclick="showTab('competences', this)">Compétences</button>
+  <button class="tab-btn" onclick="showTab('experiences', this)">Expériences</button>
+  <button class="tab-btn" onclick="showTab('projets', this)">Projets</button>
+  <button class="tab-btn" onclick="showTab('formations', this)">Formations</button>
+  <button class="tab-btn" onclick="showTab('btssio', this)">BTS SIO</button>
+  <button class="tab-btn" onclick="showTab('contact', this)">Contact</button>
+</nav>
+
+<!-- ACCUEIL -->
+<div class="tab-content active" id="tab-accueil">
+  <div class="page">
+    <div class="intro-grid">
+      <div class="stat-card"><div class="stat-num">3</div><div class="stat-label">Stages en entreprise</div></div>
+      <div class="stat-card"><div class="stat-num">15+</div><div class="stat-label">Technologies maîtrisées</div></div>
+      <div class="stat-card"><div class="stat-num">19</div><div class="stat-label">Ans, en formation active</div></div>
+      <div class="stat-card"><div class="stat-num">BAC+2</div><div class="stat-label">BTS SIO en cours</div></div>
+    </div>
+    <h2 class="section-title">À propos</h2>
+    <div class="card" style="color:#4a5568;font-size:0.92rem;line-height:1.7;">
+      Passionné par les infrastructures réseau, la cybersécurité et l'automatisation système, j'ai réalisé trois stages chez CPCAM Valmante à Marseille. J'y ai pratiqué la gestion de VM avec PROXMOX, le déploiement d'OS via PXE, l'administration Active Directory et le scripting PowerShell. Je suis actuellement en BTS SIO option SISR et vise une Licence Pro Réseaux &amp; Télécom.
+      <div class="info-list">
+        <div class="info-item"><div class="info-icon">📧</div><a href="mailto:nayb.mhamadi24@gmail.com">nayb.mhamadi24@gmail.com</a></div>
+        <div class="info-item"><div class="info-icon">📱</div>+33 6 50 96 07 73</div>
+        <div class="info-item"><div class="info-icon">📍</div>Marseille, France</div>
+        <div class="info-item"><div class="info-icon">🚗</div>Permis B en cours</div>
+        <div class="info-item"><div class="info-icon">🌍</div>Français (natif) · Comorien (B2) · Anglais (A2)</div>
+        <div class="info-item"><div class="info-icon">⚽</div>Football · Aéronautique · Basketball · Veille informatique</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COMPÉTENCES -->
+<div class="tab-content" id="tab-competences">
+  <div class="page">
+    <h2 class="section-title">Compétences Techniques</h2>
+    <div class="skill-group">
+      <div class="skill-group-title">🛡️ Cybersécurité</div>
+      <div class="tags">
+        <span class="tag">SIEM</span><span class="tag">Suricata</span><span class="tag">Snort</span>
+        <span class="tag">Wazuh (EDR/XDR/EPP)</span><span class="tag">Elastic Search</span>
+        <span class="tag">Wireshark</span><span class="tag">Protocoles TCP/IP</span><span class="tag">Bitwarden</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">🌐 Réseau</div>
+      <div class="tags">
+        <span class="tag">NAT/PAT</span><span class="tag">OSPF</span><span class="tag">EIGRP</span>
+        <span class="tag">RIP</span><span class="tag">VLAN</span><span class="tag">STP</span>
+        <span class="tag">HSRP</span><span class="tag">SD-WAN</span><span class="tag">EtherChannel</span>
+        <span class="tag">VPN Mesh (Tailscale)</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">⚙️ Système / DevOps</div>
+      <div class="tags">
+        <span class="tag">Active Directory</span><span class="tag">ZABBIX</span><span class="tag">MariaDB</span>
+        <span class="tag">HAproxy</span><span class="tag">PowerShell</span><span class="tag">Veeam Backup</span>
+        <span class="tag">Docker / Compose</span><span class="tag">PROXMOX</span><span class="tag">Hyperviseur Type 1 &amp; 2</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">🚀 Déploiement OS</div>
+      <div class="tags">
+        <span class="tag">WAPT</span><span class="tag">WADS</span><span class="tag">WinPE</span>
+        <span class="tag">iPXE</span><span class="tag">DHCP</span><span class="tag">TFTP</span>
+        <span class="tag">Packet Tracer</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EXPÉRIENCES -->
+<div class="tab-content" id="tab-experiences">
+  <div class="page">
+    <h2 class="section-title">Expériences Professionnelles</h2>
+
+    <div class="exp-card open">
+      <div class="exp-header" onclick="this.closest('.exp-card').classList.toggle('open')">
+        <div>
+          <div class="exp-date">Janvier – Février 2026</div>
+          <div class="exp-title">Administrateur Système Réseau</div>
+          <div class="exp-company">CPCAM Valmante · Marseille</div>
+        </div>
+        <div class="exp-right">
+          <span class="stage-badge">Stage 6 semaines</span>
+          <span class="toggle-icon">▼</span>
+        </div>
+      </div>
+      <div class="exp-body">
+        <ul class="exp-list">
+          <li>Gestion des VM et Backup des nœuds via PROXMOX</li>
+          <li>Résolution de problèmes techniques via WAPT</li>
+          <li>Analyse de l'Active Directory et des paquets déployés sur les postes</li>
+          <li>Automatisation de tâches via scripts PowerShell</li>
+          <li>Apprentissage de la conteneurisation (Docker, Docker Compose, Dockerfiles)</li>
+          <li>Support technique et documentation de gestion de projet</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-card">
+      <div class="exp-header" onclick="this.closest('.exp-card').classList.toggle('open')">
+        <div>
+          <div class="exp-date">Mai – Juin 2025</div>
+          <div class="exp-title">Administrateur / Analyste Système Réseau</div>
+          <div class="exp-company">CPCAM Valmante · Marseille</div>
+        </div>
+        <div class="exp-right">
+          <span class="stage-badge">Stage 5 semaines</span>
+          <span class="toggle-icon">▼</span>
+        </div>
+      </div>
+      <div class="exp-body">
+        <ul class="exp-list">
+          <li>Analyse de l'Active Directory et des paquets déployés sur les postes</li>
+          <li>Déploiement d'OS via WAPT (WADS, WinPE, iPXE)</li>
+          <li>Mise en place de serveurs DHCP, TFTP, PXE pour déploiement à distance</li>
+          <li>Documentation technique</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-card">
+      <div class="exp-header" onclick="this.closest('.exp-card').classList.toggle('open')">
+        <div>
+          <div class="exp-date">Janvier – Février 2024</div>
+          <div class="exp-title">Technicien Système Réseau</div>
+          <div class="exp-company">CPCAM Valmante · Marseille</div>
+        </div>
+        <div class="exp-right">
+          <span class="stage-badge">Stage 4 semaines</span>
+          <span class="toggle-icon">▼</span>
+        </div>
+      </div>
+      <div class="exp-body">
+        <ul class="exp-list">
+          <li>Analyse de paquets via WAPT</li>
+          <li>Apprentissage des protocoles réseau via Packet Tracer</li>
+          <li>Gestion du parc informatique (hardware)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROJETS -->
+<div class="tab-content" id="tab-projets">
+  <div class="page">
+    <h2 class="section-title">Projets Professionnels</h2>
+    <div class="project-card">
+      <div class="project-header">
+        <div class="project-title">🤖 Détection automatisée de VM via RDP</div>
+        <span class="project-year">Janv. 2026</span>
+      </div>
+      <div class="project-org">CPCAM Valmante · Marseille</div>
+      <div class="project-desc">Script PowerShell qui interroge l'Active Directory pour lister les VM disponibles en accès distant (RDP). Basé sur les modules RSAT et les attributs AD : si aucun utilisateur n'est connecté, la VM apparaît dans la liste ; sinon elle est ignorée automatiquement.</div>
+      <div class="tags">
+        <span class="tag">PowerShell</span><span class="tag">RSAT</span>
+        <span class="tag">Active Directory</span><span class="tag">RDP</span><span class="tag">Automatisation</span>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-header">
+        <div class="project-title">📡 Déploiement OS multi-postes réseau</div>
+        <span class="project-year">2025</span>
+      </div>
+      <div class="project-org">CPCAM Valmante · Marseille</div>
+      <div class="project-desc">Mise en place d'une chaîne de déploiement réseau complète : serveurs DHCP, TFTP et PXE configurés pour déployer une image d'OS sur plusieurs postes simultanément, sans intervention physique sur les machines cibles.</div>
+      <div class="tags">
+        <span class="tag">DHCP</span><span class="tag">TFTP</span>
+        <span class="tag">PXE / iPXE</span><span class="tag">WinPE</span><span class="tag">WAPT</span>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-header">
+        <div class="project-title">💾 Administration &amp; Backup VM PROXMOX</div>
+        <span class="project-year">2026</span>
+      </div>
+      <div class="project-org">CPCAM Valmante · Marseille</div>
+      <div class="project-desc">Administration des machines virtuelles sur hyperviseur PROXMOX (type 1). Mise en œuvre de stratégies de sauvegarde avec Veeam Backup pour garantir la continuité de service et la reprise après sinistre.</div>
+      <div class="tags">
+        <span class="tag">PROXMOX</span><span class="tag">Veeam Backup</span>
+        <span class="tag">Virtualisation</span><span class="tag">Hyperviseur Type 1</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FORMATIONS -->
+<div class="tab-content" id="tab-formations">
+  <div class="page">
+    <h2 class="section-title">Formations</h2>
+    <div class="formation-card">
+      <div class="formation-level">BAC+3</div>
+      <div class="formation-info">
+        <div class="formation-name">Licence Pro Métiers des Réseaux &amp; Télécom</div>
+        <div class="formation-school">À préciser</div>
+      </div>
+      <div class="formation-meta">
+        <span class="formation-years">2026 → 2027</span>
+        <span class="status-badge status-progress">À venir</span>
+      </div>
+    </div>
+    <div class="formation-card">
+      <div class="formation-level">BAC+2</div>
+      <div class="formation-info">
+        <div class="formation-name">BTS Service Informatique aux Organisations (SIO)</div>
+        <div class="formation-school">Lycée général et technologique Victor Hugo · Marseille</div>
+      </div>
+      <div class="formation-meta">
+        <span class="formation-years">2024 → 2026</span>
+        <span class="status-badge status-progress">En cours</span>
+      </div>
+    </div>
+    <div class="formation-card">
+      <div class="formation-level">BAC</div>
+      <div class="formation-info">
+        <div class="formation-name">BAC Pro Système Numérique — option RISC</div>
+        <div class="formation-school">Lycée professionnel régional Ampère · Marseille</div>
+      </div>
+      <div class="formation-meta">
+        <span class="formation-years">2021 → 2024</span>
+        <span class="status-badge status-done">Obtenu ✓</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BTS SIO -->
+<div class="tab-content" id="tab-btssio">
+  <div class="page">
+    <h2 class="section-title">BTS SIO — Tableau de Synthèse</h2>
+    <div class="sio-intro">
+      <strong>BTS Services Informatiques aux Organisations · Option SISR</strong><br>
+      Solutions d'Infrastructure, Systèmes et Réseaux · Lycée Victor Hugo, Marseille · 2024–2026
+    </div>
+    <div class="sio-grid">
+      <div class="sio-block">
+        <h4>🖧 Infrastructure &amp; Réseau</h4>
+        <ul>
+          <li>Configuration de routeurs et commutateurs (OSPF, VLAN, STP, EtherChannel)</li>
+          <li>Mise en place de services DHCP, DNS, TFTP</li>
+          <li>Déploiement de solutions VPN (Tailscale / Mesh)</li>
+          <li>Analyse réseau avec Wireshark et Packet Tracer</li>
+          <li>Configuration NAT/PAT et politiques de routage</li>
+        </ul>
+      </div>
+      <div class="sio-block">
+        <h4>🖥️ Systèmes &amp; Virtualisation</h4>
+        <ul>
+          <li>Administration Active Directory (GPO, OU, comptes)</li>
+          <li>Hyperviseurs PROXMOX (type 1) et VirtualBox (type 2)</li>
+          <li>Conteneurisation Docker et Docker Compose</li>
+          <li>Supervision système avec ZABBIX</li>
+          <li>Sauvegarde et PRA avec Veeam Backup</li>
+        </ul>
+      </div>
+      <div class="sio-block">
+        <h4>🛡️ Cybersécurité</h4>
+        <ul>
+          <li>Mise en place de SIEM (centralisation de logs)</li>
+          <li>Déploiement de sondes IDS/IPS (Suricata, Snort)</li>
+          <li>Solution EDR/XDR avec Wazuh</li>
+          <li>Analyse de trafic et détection d'intrusion</li>
+          <li>Gestion des mots de passe (Bitwarden)</li>
+        </ul>
+      </div>
+      <div class="sio-block">
+        <h4>📋 Gestion &amp; Documentation</h4>
+        <ul>
+          <li>Rédaction de documentations techniques</li>
+          <li>Automatisation via scripts PowerShell</li>
+          <li>Déploiement d'OS en masse (PXE, WAPT, WinPE)</li>
+          <li>Support utilisateur et résolution d'incidents</li>
+          <li>Gestion de parc informatique (hardware)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="tab-content" id="tab-contact">
+  <div class="page">
+    <h2 class="section-title">Contact</h2>
+    <div class="contact-grid">
+      <div class="card">
+        <div class="info-list">
+          <div class="info-item"><div class="info-icon">📧</div><a href="mailto:nayb.mhamadi24@gmail.com">nayb.mhamadi24@gmail.com</a></div>
+          <div class="info-item"><div class="info-icon">📱</div>+33 6 50 96 07 73</div>
+          <div class="info-item"><div class="info-icon">📍</div>Marseille, France</div>
+          <div class="info-item"><div class="info-icon">🎂</div>10 octobre 2006 · 19 ans</div>
+          <div class="info-item"><div class="info-icon">🚗</div>Permis B en cours</div>
+        </div>
+      </div>
+      <div class="contact-form">
+        <div>
+          <label class="form-label">Nom / Société</label>
+          <input class="form-input" type="text" placeholder="Votre nom..."/>
+        </div>
+        <div>
+          <label class="form-label">Email</label>
+          <input class="form-input" type="email" placeholder="email@exemple.com"/>
+        </div>
+        <div>
+          <label class="form-label">Objet</label>
+          <input class="form-input" type="text" placeholder="Stage, alternance, opportunité..."/>
+        </div>
+        <div>
+          <label class="form-label">Message</label>
+          <textarea class="form-textarea" placeholder="Votre message..."></textarea>
+        </div>
+        <button class="form-btn" onclick="alert('Connectez ce formulaire à Formspree (formspree.io) pour recevoir les messages.')">Envoyer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  © 2026 Mhamadi Nayb · <a href="mailto:nayb.mhamadi24@gmail.com">nayb.mhamadi24@gmail.com</a> · Marseille
+</footer>
+
+<script>
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(function(el) {
+    el.classList.remove('active');
+  });
+  document.querySelectorAll('.tab-btn').forEach(function(el) {
+    el.classList.remove('active');
+  });
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>
 
