@@ -1,539 +1,1057 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Frame Flow – Présence Digitale</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Mhamadi Nayb — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
 <style>
-  :root {
-    --teal: #07d1d9;
-    --copper: #c6804c;
-    --bg: #08141c;
-    --bg2: #0c1e29;
-    --card: #102030;
-    --border: rgba(255,255,255,0.07);
-    --text: #dce8ee;
-    --muted: #6a8ea0;
-  }
+:root {
+  --ink:       #0f1923;
+  --ink-soft:  #3a4a5a;
+  --ink-muted: #7a8fa0;
+  --paper:     #f7f8fa;
+  --white:     #ffffff;
+  --accent:    #1560bd;
+  --accent-lt: #e8f0fb;
+  --accent-md: #b3cbf0;
+  --gold:      #c8902a;
+  --gold-lt:   #fdf3e3;
+  --success:   #1a7a4a;
+  --success-lt:#e6f4ed;
+  --border:    #e4e9f0;
+  --shadow-sm: 0 2px 8px rgba(15,25,35,0.07);
+  --shadow-md: 0 8px 32px rgba(15,25,35,0.10);
+  --shadow-lg: 0 20px 60px rgba(15,25,35,0.13);
+  --radius:    12px;
+  --radius-lg: 20px;
+}
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Sora', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 300;
-    overflow-x: hidden;
-  }
+/* ── HEADER ── */
+header {
+  position: relative;
+  background: var(--ink);
+}
+header::before {
+  content: '';
+  position: absolute;
+  top: -120px; right: -100px;
+  width: 500px; height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(21,96,189,0.35) 0%, transparent 65%);
+  pointer-events: none;
+}
+header::after {
+  content: '';
+  position: absolute;
+  bottom: -80px; left: -60px;
+  width: 300px; height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200,144,42,0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+.header-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 3.5rem 2rem 3rem;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 3rem;
+  align-items: center;
+}
+@media (max-width: 640px) {
+  .header-inner { grid-template-columns: 1fr; gap: 2rem; }
+}
+.header-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-md);
+  margin-bottom: 0.75rem;
+}
+.header-name {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 400;
+  color: #fff;
+  line-height: 1.1;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.01em;
+}
+.header-role {
+  font-size: 1rem;
+  font-weight: 300;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 1.6rem;
+  letter-spacing: 0.02em;
+}
+.header-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.hbadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 500;
+  padding: 0.35rem 0.85rem;
+  border-radius: 100px;
+  letter-spacing: 0.03em;
+}
+.hbadge-blue  { background: rgba(21,96,189,0.25);  color: #90b8ff; border: 1px solid rgba(21,96,189,0.4); }
+.hbadge-gold  { background: rgba(200,144,42,0.2);  color: #f0c070; border: 1px solid rgba(200,144,42,0.35); }
+.hbadge-green { background: rgba(26,122,74,0.25);  color: #70d9a0; border: 1px solid rgba(26,122,74,0.4); }
+.dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #70d9a0;
+  animation: blink 2s ease-in-out infinite;
+}
+@keyframes blink {
+  0%,100% { opacity: 1; }
+  50%      { opacity: 0.2; }
+}
+.header-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+.stat-card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius);
+  padding: 1.1rem 1rem;
+  text-align: center;
+  backdrop-filter: blur(8px);
+}
+.stat-num {
+  font-family: 'DM Serif Display', serif;
+  font-size: 2rem;
+  color: #fff;
+  line-height: 1;
+  display: block;
+}
+.stat-label {
+  font-size: 0.62rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 0.4rem;
+  display: block;
+}
 
-  /* NAV */
-  nav {
-    position: fixed;
-    top: 0; width: 100%;
-    padding: 18px 60px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    z-index: 500;
-    background: rgba(8,20,28,0.95);
-    border-bottom: 1px solid var(--border);
-    backdrop-filter: blur(8px);
-  }
-  .logo { display: flex; align-items: center; text-decoration: none; }
-  .nav-links { display: flex; gap: 36px; list-style: none; }
-  .nav-links a {
-    color: var(--muted);
-    text-decoration: none;
-    font-size: 0.83rem;
-    font-weight: 400;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    transition: color 0.2s;
-  }
-  .nav-links a:hover { color: var(--teal); }
-  .nav-cta {
-    background: var(--teal) !important;
-    color: #08141c !important;
-    padding: 9px 22px;
-    border-radius: 6px;
-    font-weight: 500 !important;
-    transition: opacity 0.2s;
-  }
-  .nav-cta:hover { opacity: 0.85; }
+/* ── TAB NAV ── */
+.tab-nav {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: var(--shadow-sm);
+  isolation: isolate;
+}
+.tab-nav::-webkit-scrollbar { display: none; }
+.tab-btn {
+  padding: 1rem 1.35rem;
+  font-family: 'Sora', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--ink-muted);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  cursor: pointer;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+  transition: color 0.22s, border-color 0.22s;
+}
+.tab-btn:hover { color: var(--ink); }
+.tab-btn.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+  font-weight: 600;
+}
 
-  /* HERO */
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 140px 60px 100px;
-    background: var(--bg);
-    border-bottom: 1px solid var(--border);
-  }
-  .hero-tag {
-    display: inline-block;
-    border: 1px solid rgba(7,209,217,0.3);
-    color: var(--teal);
-    font-size: 0.72rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    padding: 5px 16px;
-    border-radius: 4px;
-    margin-bottom: 32px;
-    width: fit-content;
-  }
-  .hero-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2.8rem, 6vw, 5.5rem);
-    font-weight: 700;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    max-width: 700px;
-  }
-  .t { color: var(--teal); }
-  .c { color: var(--copper); }
-  .hero-sub {
-    max-width: 500px;
-    font-size: 1rem;
-    line-height: 1.8;
-    color: var(--muted);
-    margin-top: 28px;
-  }
-  .hero-sub strong { color: var(--text); font-weight: 500; }
-  .hero-ctas { display: flex; gap: 14px; margin-top: 44px; flex-wrap: wrap; }
-  .btn-primary {
-    background: var(--teal);
-    color: #08141c;
-    padding: 14px 32px;
-    border-radius: 6px;
-    font-weight: 500;
-    font-size: 0.92rem;
-    text-decoration: none;
-    transition: opacity 0.2s;
-  }
-  .btn-primary:hover { opacity: 0.85; }
-  .btn-outline {
-    border: 1px solid rgba(198,128,76,0.45);
-    color: var(--copper);
-    padding: 14px 32px;
-    border-radius: 6px;
-    font-size: 0.92rem;
-    text-decoration: none;
-    transition: background 0.2s;
-  }
-  .btn-outline:hover { background: rgba(198,128,76,0.08); }
+/* ── CONTENT ── */
+.tab-content { display: none; animation: fadeUp 0.35s ease; }
+.tab-content.active { display: block; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2.8rem 1.8rem;
+}
+.section-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+.section-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.6rem;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 1.8rem;
+  line-height: 1.2;
+}
 
-  /* STATS */
-  .stats-bar {
-    background: var(--bg2);
-    border-bottom: 1px solid var(--border);
-    padding: 32px 60px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-  .stat { text-align: center; }
-  .stat-num {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.9rem;
-    font-weight: 700;
-    color: var(--teal);
-    line-height: 1;
-  }
-  .stat-label { font-size: 0.73rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 5px; }
-  .stat-div { width: 1px; height: 40px; background: var(--border); }
+/* ── BIO ── */
+.bio-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 2rem 2.2rem;
+  box-shadow: var(--shadow-sm);
+  line-height: 1.8;
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+  margin-bottom: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.bio-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px; height: 100%;
+  background: linear-gradient(180deg, var(--accent), var(--gold));
+  border-radius: 4px 0 0 4px;
+}
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
+}
+@media (max-width: 580px) { .info-grid { grid-template-columns: 1fr; } }
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.83rem;
+  color: var(--ink-soft);
+  padding: 0.6rem 0.8rem;
+  background: var(--paper);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+.info-icon {
+  width: 30px; height: 30px;
+  background: var(--accent-lt);
+  border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.88rem;
+  flex-shrink: 0;
+}
+.info-item a { color: var(--accent); text-decoration: none; }
+.info-item a:hover { text-decoration: underline; }
 
-  /* SECTIONS */
-  section { padding: 90px 60px; }
-  .s-label {
-    font-size: 0.7rem;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--copper);
-    margin-bottom: 14px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .s-label::before { content: ''; display: inline-block; width: 20px; height: 1px; background: var(--copper); }
-  .s-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
-    font-weight: 700;
-    line-height: 1.15;
-    letter-spacing: -0.02em;
-    margin-bottom: 20px;
-  }
-  .s-title .a { color: var(--teal); }
+/* ── SKILLS ── */
+.skill-block {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.4rem 1.6rem;
+  margin-bottom: 0.85rem;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.skill-block:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+.skill-block-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+.skill-block-icon {
+  width: 36px; height: 36px;
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+.icon-blue  { background: var(--accent-lt); }
+.icon-gold  { background: var(--gold-lt); }
+.icon-green { background: var(--success-lt); }
+.skill-block-title { font-size: 0.88rem; font-weight: 600; color: var(--ink); }
+.tags { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+.tag {
+  font-size: 0.72rem;
+  font-weight: 500;
+  padding: 0.3rem 0.75rem;
+  border-radius: 100px;
+  background: var(--paper);
+  color: var(--ink-soft);
+  border: 1px solid var(--border);
+  letter-spacing: 0.02em;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.tag:hover { background: var(--accent-lt); color: var(--accent); border-color: var(--accent-md); }
 
-  /* ABOUT */
-  .about { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 70px; align-items: start; margin-top: 50px; }
-  .about-text p { color: var(--muted); line-height: 1.85; font-size: 0.95rem; margin-bottom: 18px; }
-  .about-text p strong { color: var(--text); font-weight: 500; }
-  .about-quote-box {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--teal);
-    border-radius: 8px;
-    padding: 32px;
-  }
-  .about-quote-box blockquote {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 1.15rem;
-    line-height: 1.6;
-    color: var(--text);
-    margin-bottom: 16px;
-  }
-  .about-quote-box cite { font-size: 0.78rem; color: var(--teal); letter-spacing: 0.08em; font-style: normal; }
+/* ── TIMELINE / EXPERIENCES ── */
+.timeline { position: relative; padding-left: 2rem; }
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 6px; top: 18px; bottom: 18px;
+  width: 2px;
+  background: linear-gradient(180deg, var(--accent), var(--border));
+  border-radius: 2px;
+}
+.exp-card {
+  position: relative;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 1.2rem;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+.exp-card:hover { box-shadow: var(--shadow-md); }
+.exp-card::before {
+  content: '';
+  position: absolute;
+  left: -2rem; top: 1.55rem;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 2px solid var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-lt);
+  z-index: 1;
+}
+.exp-header {
+  padding: 1.3rem 1.5rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  user-select: none;
+}
+.exp-header:hover { background: #fcfdff; }
+.exp-date {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.3rem;
+}
+.exp-title { font-size: 0.95rem; font-weight: 600; color: var(--ink); margin-bottom: 0.2rem; }
+.exp-company { font-size: 0.8rem; color: var(--ink-muted); }
+.exp-right { display: flex; flex-direction: column; align-items: flex-end; gap: 0.5rem; flex-shrink: 0; }
+.stage-badge {
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 0.28rem 0.7rem;
+  background: var(--success-lt);
+  border: 1px solid rgba(26,122,74,0.25);
+  color: var(--success);
+  border-radius: 100px;
+  white-space: nowrap;
+}
+.toggle-icon {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.65rem;
+  color: var(--ink-muted);
+  transition: transform 0.25s, background 0.2s, color 0.2s;
+}
+.exp-card.open .toggle-icon { transform: rotate(180deg); background: var(--accent-lt); color: var(--accent); }
+.exp-body {
+  display: none;
+  padding: 0 1.5rem 1.3rem;
+  border-top: 1px solid var(--border);
+}
+.exp-card.open .exp-body { display: block; }
+.exp-list { list-style: none; margin-top: 0.9rem; display: flex; flex-direction: column; gap: 0.5rem; }
+.exp-list li {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  padding-left: 1.2rem;
+  position: relative;
+  line-height: 1.6;
+}
+.exp-list li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0.58em;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+}
 
-  /* SERVICES */
-  .services { background: var(--bg); }
-  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 50px; }
-  .service-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 28px;
-    transition: border-color 0.2s;
-  }
-  .service-card:hover { border-color: rgba(7,209,217,0.22); }
-  .s-icon { font-size: 1.3rem; margin-bottom: 16px; display: block; }
-  .service-card h3 { font-family: 'Playfair Display', serif; font-size: 1.02rem; font-weight: 700; margin-bottom: 10px; color: var(--text); }
-  .service-card p { font-size: 0.84rem; color: var(--muted); line-height: 1.7; }
-  .s-tag {
-    display: inline-block;
-    margin-top: 16px;
-    font-size: 0.67rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--teal);
-    border: 1px solid rgba(7,209,217,0.22);
-    padding: 3px 10px;
-    border-radius: 4px;
-  }
+/* ── PROJECTS ── */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.2rem;
+}
+.project-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.6rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  transition: box-shadow 0.25s, transform 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+.project-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--gold));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+.project-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); }
+.project-card:hover::after { transform: scaleX(1); }
+.project-emoji { font-size: 1.8rem; line-height: 1; }
+.project-year-badge {
+  position: absolute;
+  top: 1.2rem; right: 1.2rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--ink-muted);
+  background: var(--paper);
+  border: 1px solid var(--border);
+  padding: 0.2rem 0.6rem;
+  border-radius: 100px;
+}
+.project-title { font-size: 0.95rem; font-weight: 600; color: var(--ink); line-height: 1.3; }
+.project-org { font-size: 0.75rem; font-weight: 500; color: var(--accent); }
+.project-desc { font-size: 0.82rem; color: var(--ink-soft); line-height: 1.65; flex: 1; }
 
-  /* TEAM */
-  .team { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-  .team-grid { display: grid; grid-template-columns: repeat(2, 210px); gap: 20px; margin-top: 50px; }
-  .team-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; transition: border-color 0.2s; }
-  .team-card:hover { border-color: rgba(7,209,217,0.22); }
-  .team-photo { width: 100%; height: 210px; object-fit: cover; object-position: top center; display: block; }
-  .team-info { padding: 16px 18px; }
-  .team-name { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 3px; }
-  .team-role { font-size: 0.73rem; color: var(--copper); letter-spacing: 0.08em; text-transform: uppercase; }
+/* ── FORMATIONS ── */
+.formations-list { display: flex; flex-direction: column; gap: 1rem; }
+.formation-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.3rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.3rem;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.formation-card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+.formation-level {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1rem;
+  color: var(--accent);
+  background: var(--accent-lt);
+  border: 1px solid var(--accent-md);
+  border-radius: 10px;
+  padding: 0.7rem 0.9rem;
+  text-align: center;
+  min-width: 64px;
+  flex-shrink: 0;
+  line-height: 1.2;
+}
+.formation-info { flex: 1; }
+.formation-name { font-size: 0.92rem; font-weight: 600; color: var(--ink); margin-bottom: 0.25rem; }
+.formation-school { font-size: 0.78rem; color: var(--ink-muted); }
+.formation-meta { text-align: right; flex-shrink: 0; }
+.formation-years { font-size: 0.75rem; color: var(--ink-muted); font-weight: 500; display: block; margin-bottom: 0.35rem; }
+.status-badge {
+  display: inline-block;
+  font-size: 0.67rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 100px;
+  letter-spacing: 0.03em;
+}
+.status-done     { background: var(--success-lt); border: 1px solid rgba(26,122,74,0.25); color: var(--success); }
+.status-progress { background: var(--gold-lt);    border: 1px solid rgba(200,144,42,0.3);  color: var(--gold); }
+.status-future   { background: var(--accent-lt);  border: 1px solid var(--accent-md);       color: var(--accent); }
 
-  /* PRICING */
-  .pricing { background: var(--bg); }
-  .pricing-intro { color: var(--muted); font-size: 0.93rem; line-height: 1.75; max-width: 500px; margin-top: 6px; }
-  .pricing-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 50px; }
-  .pack-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 28px; }
-  .pack-card.featured { border-color: rgba(7,209,217,0.38); }
-  .pack-badge {
-    display: inline-block;
-    background: var(--teal);
-    color: #08141c;
-    font-size: 0.67rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 3px 12px;
-    border-radius: 4px;
-    margin-bottom: 14px;
-  }
-  .pack-name { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
-  .pack-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.65; margin-bottom: 22px; min-height: 52px; }
-  .pack-features { list-style: none; margin-bottom: 26px; }
-  .pack-features li {
-    font-size: 0.82rem;
-    color: var(--muted);
-    padding: 7px 0;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .pack-features li::before { content: '→'; color: var(--teal); }
-  .pack-cta { display: block; text-align: center; padding: 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 500; text-decoration: none; transition: opacity 0.2s; }
-  .pack-cta-primary { background: var(--teal); color: #08141c; }
-  .pack-cta-primary:hover { opacity: 0.85; }
-  .pack-cta-outline { border: 1px solid rgba(198,128,76,0.38); color: var(--copper); }
-  .pack-cta-outline:hover { background: rgba(198,128,76,0.07); }
+/* ── BTS SIO ── */
+.sio-banner {
+  background: linear-gradient(135deg, var(--ink) 0%, #1a2d42 100%);
+  border-radius: var(--radius-lg);
+  padding: 1.6rem 2rem;
+  margin-bottom: 1.8rem;
+  color: rgba(255,255,255,0.7);
+  font-size: 0.88rem;
+  line-height: 1.7;
+  position: relative;
+  overflow: hidden;
+}
+.sio-banner::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(21,96,189,0.3) 0%, transparent 70%);
+}
+.sio-banner strong { color: #fff; }
+.sio-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+@media (max-width: 600px) { .sio-grid { grid-template-columns: 1fr; } }
+.sio-block {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.3rem 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+.sio-block-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+.sio-block-icon {
+  font-size: 1rem;
+  width: 30px; height: 30px;
+  background: var(--accent-lt);
+  border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+}
+.sio-block h4 { font-size: 0.82rem; font-weight: 600; color: var(--ink); }
+.sio-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+.sio-list li {
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  padding-left: 1.2rem;
+  position: relative;
+  line-height: 1.55;
+}
+.sio-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0; top: 0.05em;
+  color: var(--success);
+  font-size: 0.7rem;
+  font-weight: 700;
+}
 
-  /* CONDITIONS */
-  .conditions { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-  .cond-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 50px; }
-  .cond-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 26px; }
-  .cond-icon { font-size: 1.3rem; margin-bottom: 14px; display: block; }
-  .cond-card h4 { font-size: 0.8rem; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text); margin-bottom: 12px; }
-  .cond-card p { font-size: 0.82rem; color: var(--muted); line-height: 1.75; }
-  .cond-note {
-    background: rgba(198,128,76,0.05);
-    border: 1px solid rgba(198,128,76,0.16);
-    border-radius: 6px;
-    padding: 8px 12px;
-    margin-top: 12px;
-    font-size: 0.75rem;
-    color: var(--copper);
-    line-height: 1.5;
-  }
+/* ── CONTACT ── */
+.contact-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 2rem 2.2rem;
+  box-shadow: var(--shadow-sm);
+  max-width: 520px;
+}
+.contact-card h3 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 0.4rem;
+}
+.contact-card p {
+  font-size: 0.84rem;
+  color: var(--ink-muted);
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+.contact-links { display: flex; flex-direction: column; gap: 0.7rem; }
+.contact-link {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.9rem 1rem;
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--ink);
+  font-size: 0.86rem;
+  font-weight: 500;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s, color 0.2s;
+}
+.contact-link:hover { background: var(--accent-lt); border-color: var(--accent-md); color: var(--accent); transform: translateX(3px); }
+.contact-link-icon {
+  width: 36px; height: 36px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
 
-  /* CTA */
-  .cta-band {
-    background: var(--bg);
-    border-top: 1px solid var(--border);
-    padding: 80px 60px;
-    text-align: center;
-  }
-  .cta-band .sig {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    color: var(--teal);
-    font-size: 1rem;
-    display: block;
-    margin-bottom: 14px;
-  }
-  .cta-band h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 700; margin-bottom: 14px; }
-  .cta-band p { color: var(--muted); font-size: 0.95rem; max-width: 440px; margin: 0 auto 34px; line-height: 1.75; }
-  .cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-
-  /* FOOTER */
-  footer {
-    background: var(--bg2);
-    padding: 32px 60px;
-    border-top: 1px solid var(--border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 14px;
-  }
-  .footer-copy { font-size: 0.75rem; color: var(--muted); }
-  .footer-sig { font-family: 'Playfair Display', serif; font-style: italic; color: var(--copper); font-size: 0.87rem; }
-
-  /* REVEAL */
-  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
-
-  @media (max-width: 768px) {
-    nav { padding: 14px 20px; }
-    .nav-links { display: none; }
-    section { padding: 60px 20px; }
-    .hero { padding: 100px 20px 70px; }
-    .stats-bar { padding: 24px 20px; }
-    .about-grid,
-    .services-grid,
-    .pricing-cards,
-    .cond-grid { grid-template-columns: 1fr; }
-    .team-grid { grid-template-columns: 1fr 1fr; }
-    footer { flex-direction: column; text-align: center; padding: 28px 20px; }
-    .cta-band { padding: 60px 20px; }
-  }
+/* ── FOOTER ── */
+footer {
+  background: var(--ink);
+  color: rgba(255,255,255,0.35);
+  text-align: center;
+  padding: 1.8rem;
+  font-size: 0.75rem;
+  margin-top: 3rem;
+  letter-spacing: 0.05em;
+}
+footer a { color: rgba(255,255,255,0.55); text-decoration: none; }
+footer a:hover { color: #fff; }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <a href="#" class="logo">
-    <svg width="130" height="42" viewBox="0 0 140 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <text x="0" y="29" font-family="'DM Sans', sans-serif" font-size="21" font-weight="700" fill="#07d1d9">Frame</text>
-      <text x="0" y="44" font-family="'DM Sans', sans-serif" font-size="21" font-weight="700" fill="#07d1d9">Flow</text>
-      <rect x="96" y="4" width="36" height="36" rx="7" fill="url(#g1)"/>
-      <path d="M122 6 L132 24" stroke="white" stroke-width="5" stroke-linecap="round" opacity="0.9"/>
-      <path d="M98 20 L108 38" stroke="white" stroke-width="5" stroke-linecap="round" opacity="0.5"/>
-      <defs>
-        <linearGradient id="g1" x1="96" y1="4" x2="132" y2="40" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stop-color="#07d1d9"/>
-          <stop offset="100%" stop-color="#5a4fcf"/>
-        </linearGradient>
-      </defs>
-    </svg>
-  </a>
-  <ul class="nav-links">
-    <li><a href="#about">À propos</a></li>
-    <li><a href="#services">Services</a></li>
-    <li><a href="#team">Équipe</a></li>
-    <li><a href="#pricing">Packs</a></li>
-    <li><a href="#contact" class="nav-cta">Démarrer</a></li>
-  </ul>
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div>
+      <div class="header-eyebrow">Portfolio · 2026</div>
+      <h1 class="header-name">Mhamadi Nayb</h1>
+      <p class="header-role">Administrateur Système &amp; Réseau Junior</p>
+      <div class="header-badges">
+        <span class="hbadge hbadge-green"><span class="dot"></span>Disponible</span>
+        <span class="hbadge hbadge-blue">📍 Marseille</span>
+        <span class="hbadge hbadge-gold">🎓 BTS SIO · SISR</span>
+      </div>
+    </div>
+    <div class="header-stats">
+      <div class="stat-card">
+        <span class="stat-num">3</span>
+        <span class="stat-label">Stages</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">15+</span>
+        <span class="stat-label">Technologies</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">19</span>
+        <span class="stat-label">Ans</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">BAC+2</span>
+        <span class="stat-label">En cours</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- NAVIGATION -->
+<nav class="tab-nav">
+  <button class="tab-btn active" onclick="showTab('accueil', this)">Accueil</button>
+  <button class="tab-btn" onclick="showTab('competences', this)">Compétences</button>
+  <button class="tab-btn" onclick="showTab('experiences', this)">Expériences</button>
+  <button class="tab-btn" onclick="showTab('projets', this)">Projets</button>
+  <button class="tab-btn" onclick="showTab('formations', this)">Formations</button>
+  <button class="tab-btn" onclick="showTab('btssio', this)">BTS SIO</button>
+  <button class="tab-btn" onclick="showTab('contact', this)">Contact</button>
 </nav>
 
-<!-- HERO -->
-<section class="hero" id="home">
-  <div class="hero-tag">Présence Digitale · Communication · Vidéo</div>
-  <h1 class="hero-title">
-    Votre image,<br>
-    <span class="t">forte</span> &amp; <span class="c">durable.</span>
-  </h1>
-  <p class="hero-sub">
-    Nous n'offrons pas seulement du contenu — nous vous donnons un <strong>bagage durable</strong> pour rendre votre communication autonome, cohérente et percutante.
-  </p>
-  <div class="hero-ctas">
-    <a href="#pricing" class="btn-primary">Découvrir nos packs →</a>
-    <a href="#about" class="btn-outline">En savoir plus</a>
+<!-- ACCUEIL -->
+<div class="tab-content active" id="tab-accueil">
+  <div class="page">
+    <div class="section-label">Présentation</div>
+    <div class="section-title">À propos de moi</div>
+    <div class="bio-card">
+      Passionné par les infrastructures réseau, la cybersécurité et l'automatisation système, j'ai réalisé trois stages chez CPCAM Valmante à Marseille. J'y ai pratiqué la gestion de VM avec PROXMOX, le déploiement d'OS via PXE, l'administration Active Directory et le scripting PowerShell. J'ai également mené des projets personnels comme l'initiation à Docker, que j'ai pu mettre en pratique en stage. Je suis actuellement en BTS SIO option SISR et vise une Licence Pro Réseaux &amp; Télécom.
+      <div class="info-grid">
+        <div class="info-item"><div class="info-icon">📧</div><a href="mailto:nayb.mhamadi24@gmail.com">nayb.mhamadi24@gmail.com</a></div>
+        <div class="info-item"><div class="info-icon">📱</div>+33 6 50 96 07 73</div>
+        <div class="info-item"><div class="info-icon">📍</div>Marseille, France</div>
+        <div class="info-item"><div class="info-icon">🚗</div>Permis B en cours</div>
+        <div class="info-item"><div class="info-icon">🌍</div>Français (natif) · Comorien (B2) · Anglais (A2)</div>
+        <div class="info-item"><div class="info-icon">⚽</div>Football · Aéronautique · Basketball · Veille IT</div>
+      </div>
+    </div>
   </div>
-</section>
-
-<!-- STATS -->
-<div class="stats-bar reveal">
-  <div class="stat"><div class="stat-num">2-en-1</div><div class="stat-label">Service intégré</div></div>
-  <div class="stat-div"></div>
-  <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Sur-mesure</div></div>
-  <div class="stat-div"></div>
-  <div class="stat"><div class="stat-num">∞</div><div class="stat-label">Possibilités créatives</div></div>
-  <div class="stat-div"></div>
-  <div class="stat"><div class="stat-num">50%</div><div class="stat-label">Acompte sécurisé</div></div>
 </div>
 
-<!-- ABOUT -->
-<section class="about" id="about">
-  <div class="s-label">À propos</div>
-  <h2 class="s-title">Né d'un constat <span class="a">simple</span></h2>
-  <div class="about-grid reveal">
-    <div class="about-text">
-      <p>Sur les réseaux sociaux, <strong>seules les vidéos courtes, dynamiques et percutantes</strong> captivent vraiment. Frame Flow est né pour répondre à ce besoin avec un service 2-en-1 unique.</p>
-      <p>Nous allions la <strong>création de capsules vidéo impactantes</strong> et une <strong>stratégie de communication digitale sur-mesure</strong>, pour aider professionnels, créateurs et particuliers à valoriser leur image ou leur savoir-faire.</p>
-      <p>Avec nos packs modulables, nous vous accompagnons de la capsule prête à la publication jusqu'à la diffusion stratégique, la création d'une <strong>identité visuelle</strong> et la mise en place d'un calendrier éditorial.</p>
+<!-- COMPÉTENCES -->
+<div class="tab-content" id="tab-competences">
+  <div class="page">
+    <div class="section-label">Savoir-faire</div>
+    <div class="section-title">Compétences Techniques</div>
+
+    <div class="skill-block">
+      <div class="skill-block-header">
+        <div class="skill-block-icon icon-blue">🛡️</div>
+        <div class="skill-block-title">Cybersécurité</div>
+      </div>
+      <div class="tags">
+        <span class="tag">SIEM</span><span class="tag">Suricata</span><span class="tag">Snort</span>
+        <span class="tag">Wazuh (EDR/XDR/EPP)</span><span class="tag">Elastic Search</span>
+        <span class="tag">Wireshark</span><span class="tag">Protocoles TCP/IP</span><span class="tag">Bitwarden</span>
+      </div>
     </div>
-    <div class="about-quote-box">
-      <blockquote>"Notre objectif est de vous construire une présence digitale forte, élégante et durable."</blockquote>
-      <cite>— Signé Frame Flow</cite>
+
+    <div class="skill-block">
+      <div class="skill-block-header">
+        <div class="skill-block-icon icon-gold">🌐</div>
+        <div class="skill-block-title">Réseau</div>
+      </div>
+      <div class="tags">
+        <span class="tag">NAT/PAT</span><span class="tag">OSPF</span><span class="tag">EIGRP</span>
+        <span class="tag">RIP</span><span class="tag">VLAN</span><span class="tag">STP</span>
+        <span class="tag">HSRP</span><span class="tag">SD-WAN</span><span class="tag">EtherChannel</span>
+        <span class="tag">VPN Mesh (Tailscale)</span>
+      </div>
+    </div>
+
+    <div class="skill-block">
+      <div class="skill-block-header">
+        <div class="skill-block-icon icon-green">⚙️</div>
+        <div class="skill-block-title">Système &amp; DevOps</div>
+      </div>
+      <div class="tags">
+        <span class="tag">Active Directory</span><span class="tag">ZABBIX</span><span class="tag">MariaDB</span>
+        <span class="tag">HAproxy</span><span class="tag">PowerShell</span><span class="tag">Veeam Backup</span>
+        <span class="tag">Docker / Compose</span><span class="tag">PROXMOX</span>
+        <span class="tag">Hyperviseur Type 1 &amp; 2</span>
+      </div>
     </div>
   </div>
-</section>
+</div>
 
-<!-- SERVICES -->
-<section class="services" id="services">
-  <div class="s-label">Ce que nous faisons</div>
-  <h2 class="s-title">Nos <span class="a">services</span></h2>
-  <div class="services-grid reveal">
-    <div class="service-card"><span class="s-icon">🎬</span><h3>Capsules Vidéo</h3><p>Création de vidéos courtes, dynamiques et percutantes adaptées à chaque plateforme sociale. Du tournage au montage final.</p><span class="s-tag">Production</span></div>
-    <div class="service-card"><span class="s-icon">📐</span><h3>Identité Visuelle</h3><p>Conception d'une identité graphique cohérente et mémorable — logos, chartes graphiques, templates pour vos réseaux.</p><span class="s-tag">Graphisme</span></div>
-    <div class="service-card"><span class="s-icon">📅</span><h3>Stratégie Éditoriale</h3><p>Élaboration d'un calendrier éditorial sur-mesure et d'une stratégie de diffusion pour maximiser votre impact digital.</p><span class="s-tag">Stratégie</span></div>
-    <div class="service-card"><span class="s-icon">📸</span><h3>Photographie</h3><p>Séances photo professionnelles pour valoriser votre image personnelle, vos produits ou événements avec style.</p><span class="s-tag">Photo</span></div>
-    <div class="service-card"><span class="s-icon">💬</span><h3>Communication Digitale</h3><p>Accompagnement dans votre prise de parole en ligne — copywriting, tone of voice, positionnement de marque.</p><span class="s-tag">Communication</span></div>
-    <div class="service-card"><span class="s-icon">🚀</span><h3>Diffusion Stratégique</h3><p>Gestion et optimisation de la publication de vos contenus pour toucher votre audience au bon moment.</p><span class="s-tag">Diffusion</span></div>
-  </div>
-</section>
+<!-- EXPÉRIENCES -->
+<div class="tab-content" id="tab-experiences">
+  <div class="page">
+    <div class="section-label">Parcours professionnel</div>
+    <div class="section-title">Expériences</div>
+    <div class="timeline">
 
-<!-- TEAM -->
-<section class="team" id="team">
-  <div class="s-label">L'équipe</div>
-  <h2 class="s-title">Derrière <span class="a">Frame Flow</span></h2>
-  <p style="color:var(--muted);font-size:0.92rem;line-height:1.75;max-width:420px;margin-bottom:4px;">Une équipe créative et complémentaire, passionnée par la communication visuelle et le storytelling digital.</p>
-  <div class="team-grid reveal">
-    <div class="team-card">
-      <img class="team-photo" src="/mnt/user-data/uploads/Photo_pour_frame_flow.jpg" alt="Hikma">
-      <div class="team-info"><div class="team-name">Hikma</div><div class="team-role">Communication · Graphisme</div></div>
-    </div>
-    <div class="team-card">
-      <img class="team-photo" src="/mnt/user-data/uploads/Photo_2.jpg" alt="Yannakis">
-      <div class="team-info"><div class="team-name">Yannakis</div><div class="team-role">Photographe · Vidéaste</div></div>
-    </div>
-  </div>
-</section>
+      <div class="exp-card open">
+        <div class="exp-header" onclick="this.closest('.exp-card').classList.toggle('open')">
+          <div>
+            <div class="exp-date">Janvier – Février 2026</div>
+            <div class="exp-title">Administrateur Système &amp; Réseau</div>
+            <div class="exp-company">CPCAM Valmante · Marseille</div>
+          </div>
+          <div class="exp-right">
+            <span class="stage-badge">Stage · 6 semaines</span>
+            <div class="toggle-icon">▼</div>
+          </div>
+        </div>
+        <div class="exp-body">
+          <ul class="exp-list">
+            <li>Gestion des VM et backup des nœuds via PROXMOX</li>
+            <li>Résolution de problèmes techniques via WAPT</li>
+            <li>Analyse de l'Active Directory et des paquets déployés sur les postes</li>
+            <li>Automatisation de tâches via scripts PowerShell</li>
+            <li>Apprentissage de la conteneurisation (Docker, Docker Compose, Dockerfiles)</li>
+            <li>Support technique et documentation de gestion de projet</li>
+          </ul>
+        </div>
+      </div>
 
-<!-- PRICING -->
-<section class="pricing" id="pricing">
-  <div class="s-label">Tarification</div>
-  <h2 class="s-title">Nos <span class="a">Packs</span></h2>
-  <p class="pricing-intro">Des packs modulables pensés pour s'adapter à vos besoins, que vous soyez professionnel, créateur ou particulier.</p>
-  <div class="pricing-cards reveal">
-    <div class="pack-card">
-      <div class="pack-name">Starter</div>
-      <p class="pack-desc">Pour démarrer votre présence digitale avec des contenus vidéo impactants.</p>
-      <ul class="pack-features">
-        <li>Capsules vidéo courtes</li><li>Montage professionnel</li><li>Prête à publier</li><li>1 révision incluse</li>
-      </ul>
-      <a href="#contact" class="pack-cta pack-cta-outline">Demander un devis</a>
-    </div>
-    <div class="pack-card featured">
-      <span class="pack-badge">Populaire</span>
-      <div class="pack-name">Pro</div>
-      <p class="pack-desc">Le service 2-en-1 complet : vidéo + stratégie digitale sur-mesure.</p>
-      <ul class="pack-features">
-        <li>Capsules vidéo + photos</li><li>Identité visuelle</li><li>Calendrier éditorial</li><li>Stratégie de diffusion</li><li>2 révisions incluses</li>
-      </ul>
-      <a href="#contact" class="pack-cta pack-cta-primary">Démarrer maintenant</a>
-    </div>
-    <div class="pack-card">
-      <div class="pack-name">Premium</div>
-      <p class="pack-desc">Un accompagnement complet pour bâtir une présence digitale forte et durable.</p>
-      <ul class="pack-features">
-        <li>Production complète</li><li>Identité visuelle complète</li><li>Gestion éditoriale</li><li>Diffusion gérée</li><li>Suivi mensuel</li>
-      </ul>
-      <a href="#contact" class="pack-cta pack-cta-outline">Demander un devis</a>
-    </div>
-  </div>
-</section>
+      <div class="exp-card">
+        <div class="exp-header" onclick="this.closest('.exp-card').classList.toggle('open')">
+          <div>
+            <div class="exp-date">Mai – Juin 2025</div>
+            <div class="exp-title">Administrateur / Analyste Système &amp; Réseau</div>
+            <div class="exp-company">CPCAM Valmante · Marseille</div>
+          </div>
+          <div class="exp-right">
+            <span class="stage-badge">Stage · 5 semaines</span>
+            <div class="toggle-icon">▼</div>
+          </div>
+        </div>
+        <div class="exp-body">
+          <ul class="exp-list">
+            <li>Analyse de l'Active Directory et des paquets déployés sur les postes</li>
+            <li>Déploiement d'OS via WAPT (WADS, WinPE, iPXE)</li>
+            <li>Mise en place de serveurs DHCP, TFTP, PXE pour déploiement à distance</li>
+            <li>Documentation technique</li>
+          </ul>
+        </div>
+      </div>
 
-<!-- CONDITIONS -->
-<section class="conditions" id="conditions">
-  <div class="s-label">Détails des prestations</div>
-  <h2 class="s-title">Comment ça <span class="a">fonctionne</span></h2>
-  <div class="cond-grid reveal">
-    <div class="cond-card">
-      <span class="cond-icon">✍️</span>
-      <h4>Confirmation de la prestation</h4>
-      <p>La prestation est confirmée après la signature du contrat par les deux parties, la validation du devis et le versement d'un acompte de 50% du montant total. Le solde est à régler une fois tous les livrables remis.</p>
-      <div class="cond-note">⚠️ L'acompte n'est pas remboursable si la prestation a déjà commencé.</div>
-    </div>
-    <div class="cond-card">
-      <span class="cond-icon">📦</span>
-      <h4>Contenu de la prestation</h4>
-      <p>Les prestations concernent uniquement le pack choisi, nous réalisons exactement ce qui est indiqué dans l'offre sélectionnée, ni plus ni moins. Une fois tous les livrables remis, le contrat est clôturé, avec la possibilité de le renouveler.</p>
-    </div>
-    <div class="cond-card">
-      <span class="cond-icon">📷</span>
-      <h4>Droit à l'image</h4>
-      <p>Frame Flow peut utiliser les contenus réalisés pour ses supports de communication. Un encadré prévu au bas du contrat permettra au client d'accepter ou de refuser cette utilisation.</p>
-      <div class="cond-note">▶ Si la case n'est pas cochée, le client refuse le droit à l'image.</div>
+      <div class="exp-card">
+        <div class="exp-header" onclick="this.closest('.exp-card').classList.toggle('open')">
+          <div>
+            <div class="exp-date">Janvier – Février 2024</div>
+            <div class="exp-title">Technicien Système &amp; Réseau</div>
+            <div class="exp-company">CPCAM Valmante · Marseille</div>
+          </div>
+          <div class="exp-right">
+            <span class="stage-badge">Stage · 4 semaines</span>
+            <div class="toggle-icon">▼</div>
+          </div>
+        </div>
+        <div class="exp-body">
+          <ul class="exp-list">
+            <li>Analyse de paquets via WAPT</li>
+            <li>Apprentissage des protocoles réseau via Packet Tracer</li>
+            <li>Gestion du parc informatique (hardware)</li>
+          </ul>
+        </div>
+      </div>
+
     </div>
   </div>
-</section>
+</div>
 
-<!-- CTA -->
-<div class="cta-band" id="contact">
-  <em class="sig">Signé frame flow.</em>
-  <h2>Prêt à construire votre <span style="color:var(--teal)">présence digitale</span> ?</h2>
-  <p>Prenons contact et discutons de votre projet. Ensemble, nous créerons quelque chose de fort, d'élégant et de durable.</p>
-  <div class="cta-btns">
-    <a href="mailto:contact@frameflow.com" class="btn-primary">Nous contacter →</a>
-    <a href="#pricing" class="btn-outline">Voir les packs</a>
+<!-- PROJETS -->
+<div class="tab-content" id="tab-projets">
+  <div class="page">
+    <div class="section-label">Réalisations</div>
+    <div class="section-title">Projets Professionnels</div>
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <div class="project-emoji">🗂️</div>
+        <span class="project-year-badge">2025 — Personnel</span>
+        <div class="project-title">Serveur de fichiers avec accès distant via VPN Mesh</div>
+        <div class="project-org">Projet personnel</div>
+        <div class="project-desc">Mise en place d'un serveur FTP chez moi sur pc fixe gaming (VM Virtualbox en accès par pont sous Windows server 2022) couplé à un VPN Mesh Tailscale permettant un accès sécurisé aux fichiers depuis n'importe où dans le monde, sans exposition directe sur Internet. Les utilisateurs accèdent au partage de fichiers comme s'ils étaient en local avec l'IP du serveur (IP tunnel VPN).</div>
+        <div class="tags">
+          <span class="tag">FTP</span><span class="tag">VPN Mesh</span><span class="tag">Tailscale</span>
+          <span class="tag">Accès distant</span><span class="tag">Sécurité réseau</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-emoji">🤖</div>
+        <span class="project-year-badge">Janv. 2026</span>
+        <div class="project-title">Détection automatisée de VM via RDP</div>
+        <div class="project-org">CPCAM Valmante · Marseille</div>
+        <div class="project-desc">Script PowerShell interrogeant l'Active Directory pour lister les VM disponibles en accès distant. Si aucun utilisateur n'est connecté, la VM apparaît dans la liste ; sinon elle est ignorée automatiquement.</div>
+        <div class="tags">
+          <span class="tag">PowerShell</span><span class="tag">RSAT</span>
+          <span class="tag">Active Directory</span><span class="tag">RDP</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-emoji">📡</div>
+        <span class="project-year-badge">2025</span>
+        <div class="project-title">Déploiement OS multi-postes réseau</div>
+        <div class="project-org">CPCAM Valmante · Marseille</div>
+        <div class="project-desc">Mise en place d'une chaîne de déploiement réseau complète : serveurs DHCP, TFTP et PXE pour déployer une image d'OS sur plusieurs postes simultanément, sans intervention physique sur les machines cibles.</div>
+        <div class="tags">
+          <span class="tag">DHCP</span><span class="tag">TFTP</span>
+          <span class="tag">PXE / iPXE</span><span class="tag">WinPE</span><span class="tag">WAPT</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-emoji">🐳</div>
+        <span class="project-year-badge">2025 — Personnel</span>
+        <div class="project-title">Initiation à Docker — Serveur web Nginx</div>
+        <div class="project-org">Projet personnel · Linux (VM locale)</div>
+        <div class="project-desc">Découverte des bases de Docker à travers le déploiement d'un conteneur Nginx sur une VM Linux : manipulation des commandes de base, lancement de conteneurs et exposition de ports.</div>
+        <div class="tags">
+          <span class="tag">Docker</span><span class="tag">Nginx</span><span class="tag">Linux</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-emoji">💾</div>
+        <span class="project-year-badge">2026</span>
+        <div class="project-title">Administration &amp; Backup VM PROXMOX</div>
+        <div class="project-org">CPCAM Valmante · Marseille</div>
+        <div class="project-desc">Administration des machines virtuelles sur hyperviseur PROXMOX (type 1). Mise en œuvre de stratégies de sauvegarde avec Veeam Backup pour garantir la continuité de service et la reprise après sinistre.</div>
+        <div class="tags">
+          <span class="tag">PROXMOX</span><span class="tag">Veeam Backup</span>
+          <span class="tag">Virtualisation</span><span class="tag">Hyperviseur Type 1</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- FORMATIONS -->
+<div class="tab-content" id="tab-formations">
+  <div class="page">
+    <div class="section-label">Parcours académique</div>
+    <div class="section-title">Formations</div>
+    <div class="formations-list">
+
+      <div class="formation-card">
+        <div class="formation-level">BAC+3</div>
+        <div class="formation-info">
+          <div class="formation-name">Licence Pro Métiers des Réseaux &amp; Télécom</div>
+          <div class="formation-school">À préciser</div>
+        </div>
+        <div class="formation-meta">
+          <span class="formation-years">2026 → 2027</span>
+          <span class="status-badge status-future">À venir</span>
+        </div>
+      </div>
+
+      <div class="formation-card">
+        <div class="formation-level">BAC+2</div>
+        <div class="formation-info">
+          <div class="formation-name">BTS Service Informatique aux Organisations (SIO)</div>
+          <div class="formation-school">Lycée général et technologique Victor Hugo · Marseille</div>
+        </div>
+        <div class="formation-meta">
+          <span class="formation-years">2024 → 2026</span>
+          <span class="status-badge status-progress">En cours</span>
+        </div>
+      </div>
+
+      <div class="formation-card">
+        <div class="formation-level">BAC</div>
+        <div class="formation-info">
+          <div class="formation-name">BAC Pro Système Numérique — option RISC</div>
+          <div class="formation-school">Lycée professionnel régional Ampère · Marseille</div>
+        </div>
+        <div class="formation-meta">
+          <span class="formation-years">2021 → 2024</span>
+          <span class="status-badge status-done">Obtenu ✓</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- BTS SIO -->
+<div class="tab-content" id="tab-btssio">
+  <div class="page">
+    <div class="section-label">Diplôme en cours</div>
+    <div class="section-title">BTS SIO — Tableau de Synthèse</div>
+    <div class="sio-banner">
+      <strong>BTS Services Informatiques aux Organisations · Option SISR</strong><br>
+      Solutions d'Infrastructure, Systèmes et Réseaux · Lycée Victor Hugo, Marseille · 2024–2026
+    </div>
+    <div class="sio-grid">
+
+      <div class="sio-block">
+        <div class="sio-block-header">
+          <div class="sio-block-icon">🖧</div>
+          <h4>Infrastructure &amp; Réseau</h4>
+        </div>
+        <ul class="sio-list">
+          <li>Configuration de routeurs et commutateurs (OSPF, VLAN, STP, EtherChannel)</li>
+          <li>Mise en place de services DHCP, DNS, TFTP</li>
+          <li>Déploiement de solutions VPN (Tailscale / Mesh)</li>
+          <li>Analyse réseau avec Wireshark et Packet Tracer</li>
+          <li>Configuration NAT/PAT et politiques de routage</li>
+        </ul>
+      </div>
+
+      <div class="sio-block">
+        <div class="sio-block-header">
+          <div class="sio-block-icon">🖥️</div>
+          <h4>Systèmes &amp; Virtualisation</h4>
+        </div>
+        <ul class="sio-list">
+          <li>Administration Active Directory (GPO, OU, comptes)</li>
+          <li>Hyperviseurs PROXMOX (type 1) et VirtualBox (type 2)</li>
+          <li>Conteneurisation Docker et Docker Compose</li>
+          <li>Supervision système avec ZABBIX</li>
+          <li>Sauvegarde et PRA avec Veeam Backup</li>
+        </ul>
+      </div>
+
+      <div class="sio-block">
+        <div class="sio-block-header">
+          <div class="sio-block-icon">🛡️</div>
+          <h4>Cybersécurité</h4>
+        </div>
+        <ul class="sio-list">
+          <li>Mise en place de SIEM (centralisation de logs)</li>
+          <li>Déploiement de sondes IDS/IPS (Suricata, Snort)</li>
+          <li>Solution EDR/XDR avec Wazuh</li>
+          <li>Analyse de trafic et détection d'intrusion</li>
+          <li>Gestion des mots de passe (Bitwarden)</li>
+        </ul>
+      </div>
+
+      <div class="sio-block">
+        <div class="sio-block-header">
+          <div class="sio-block-icon">📋</div>
+          <h4>Gestion &amp; Documentation</h4>
+        </div>
+        <ul class="sio-list">
+          <li>Rédaction de documentations techniques</li>
+          <li>Automatisation via scripts PowerShell</li>
+          <li>Déploiement d'OS en masse (PXE, WAPT, WinPE)</li>
+          <li>Support utilisateur et résolution d'incidents</li>
+          <li>Gestion de parc informatique (hardware)</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="tab-content" id="tab-contact">
+  <div class="page">
+    <div class="section-label">Me joindre</div>
+    <div class="section-title">Contact</div>
+    <div class="contact-card">
+      <h3>Discutons ensemble</h3>
+      <p>N'hésitez pas à me contacter pour toute opportunité de stage, alternance ou collaboration.</p>
+      <div class="contact-links">
+        <a href="mailto:nayb.mhamadi24@gmail.com" class="contact-link">
+          <div class="contact-link-icon">📧</div>
+          nayb.mhamadi24@gmail.com
+        </a>
+        <a href="tel:+33650960773" class="contact-link">
+          <div class="contact-link-icon">📱</div>
+          +33 6 50 96 07 73
+        </a>
+        <div class="contact-link" style="cursor:default;">
+          <div class="contact-link-icon">📍</div>
+          Marseille, France
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
 <!-- FOOTER -->
 <footer>
-  <svg width="120" height="40" viewBox="0 0 140 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <text x="0" y="29" font-family="'DM Sans', sans-serif" font-size="21" font-weight="700" fill="#07d1d9">Frame</text>
-    <text x="0" y="44" font-family="'DM Sans', sans-serif" font-size="21" font-weight="700" fill="#07d1d9">Flow</text>
-    <rect x="96" y="4" width="36" height="36" rx="7" fill="url(#g2)"/>
-    <path d="M122 6 L132 24" stroke="white" stroke-width="5" stroke-linecap="round" opacity="0.9"/>
-    <path d="M98 20 L108 38" stroke="white" stroke-width="5" stroke-linecap="round" opacity="0.5"/>
-    <defs>
-      <linearGradient id="g2" x1="96" y1="4" x2="132" y2="40" gradientUnits="userSpaceOnUse">
-        <stop offset="0%" stop-color="#07d1d9"/>
-        <stop offset="100%" stop-color="#5a4fcf"/>
-      </linearGradient>
-    </defs>
-  </svg>
-  <div class="footer-copy">© 2025 Frame Flow. Tous droits réservés.</div>
-  <div class="footer-sig">Signé frame flow.</div>
+  © 2026 Mhamadi Nayb &nbsp;·&nbsp;
+  <a href="mailto:nayb.mhamadi24@gmail.com">nayb.mhamadi24@gmail.com</a>
+  &nbsp;·&nbsp; Marseille
 </footer>
 
 <script>
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(r => obs.observe(r));
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(function(el) {
+    el.classList.remove('active');
+  });
+  document.querySelectorAll('.tab-btn').forEach(function(el) {
+    el.classList.remove('active');
+  });
+  var target = document.getElementById('tab-' + id);
+  if (target) target.classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 </script>
 </body>
 </html>
