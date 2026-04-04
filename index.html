@@ -687,6 +687,69 @@ header::after {
   font-weight: 700;
 }
 
+/* ── DOC associé ── */
+.doc-banner {
+  background: linear-gradient(135deg, var(--ink) 0%, #1a2d42 100%);
+  border-radius: var(--radius-lg);
+  padding: 1.6rem 2rem;
+  margin-bottom: 1.8rem;
+  color: rgba(255,255,255,0.7);
+  font-size: 0.88rem;
+  line-height: 1.7;
+  position: relative;
+  overflow: hidden;
+}
+.doc-banner::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(21,96,189,0.3) 0%, transparent 70%);
+}
+.doc-banner strong { color: #fff; }
+.doc-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+@media (max-width: 600px) { .sio-grid { grid-template-columns: 1fr; } }
+.doc-block {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.3rem 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+.doc-block-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+.doc-block-icon {
+  font-size: 1rem;
+  width: 30px; height: 30px;
+  background: var(--accent-lt);
+  border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+}
+.doc-block h4 { font-size: 0.82rem; font-weight: 600; color: var(--ink); }
+.doc-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+.doc-list li {
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  padding-left: 1.2rem;
+  position: relative;
+  line-height: 1.55;
+}
+.doc-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0; top: 0.05em;
+  color: var(--success);
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
 /* ── CONTACT ── */
 .contact-card {
   background: var(--white);
@@ -1739,11 +1802,11 @@ footer a:hover { color: #fff; }
   <div class="page">
     <div class="section-label">Document associé</div>
     <div class="section-title">Attestation de Stage et Tableau de synthèse</div>
-    <div class="sio-banner">
+    <div class="doc-banner">
       <strong>BTS Services Informatiques aux Organisations · Option SISR</strong><br>
       Solutions d'Infrastructure, Systèmes et Réseaux · Lycée Victor Hugo, Marseille · 2024–2026
     </div>
-    <div class="sio-grid">
+    <div class="doc-grid">
 
        <div class="tuto-card">
         <div class="tuto-card-header" onclick="this.closest('.tuto-card').classList.toggle('open')">
