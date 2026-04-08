@@ -1215,6 +1215,20 @@ footer {
 }
 footer a { color: rgba(255,255,255,0.55); text-decoration: none; }
 footer a:hover { color: #fff; }
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Prend au minimum la hauteur de l'écran */
+}
+
+main {
+  flex: 1; /* Prend tout l'espace disponible */
+}
+
+footer {
+  margin-top: auto; /* Pousse le footer en bas */
+}
 </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
   <script>
